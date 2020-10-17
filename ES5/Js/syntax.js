@@ -82,7 +82,6 @@ console.log("A07"<"A21"); // 문자 하나씩 비교 같으면 다음으로 ..
 var ud; 
 console.log(1=="1"); //"문자:숫자","숫자:문자"일 때 문자 타입을 숫자 타입으로 변환하여 비교한다.
 console.log(ud==undefined); //양쪽이 모두 undefined 이므로 true
-console.log(ud==undefined); //양쪽이 모두 undefined 이므로 true
 console.log(ud == null);
 
 //부등 연산자 != a!=와 !(a == b) 는 같다.

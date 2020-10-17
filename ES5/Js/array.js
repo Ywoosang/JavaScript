@@ -184,7 +184,126 @@ console.log(origin.slice(-4,-2)); //(1,3) -> -4+5 , -2+5
 */
 
 var value=[1,2,3];
-var result= value.join("##")
+var result= value.join("##");
+var connect = value.join("");
 console.log(result);
+console.log(connect); //엘리먼트 요소들만 연결
+
+/*
+서버에서 데이터를 받아서 테이블(표) 를 만들때 서버의 데이터를 마크업으로 만들어서 리스트에 푸쉬함
+그런 다음 빈 문자열로 연결해서(join) 한번에 html 에 insert가능
+한번에 표가 표시된다는 장점 => 일일이 각 ul li 마다 보낼 필요 없이
+*/
+
+/*
+toString 배열의 엘리먼트 값을 문자열로 연결, 콤마로 엘리먼트를 구분
+*/
+var result = ["A","B","C"].toString();
+console.log(result);
+console.log([["가"],["다"]].toString()); // 2차원 배결의 각 엘리먼트 값을 1차원 배열로 펼치고 다시 1차원을 문자열로 연결하여 반환
+
+var table = [];
+table.push('<ul>')
+for(var cnt=1; cnt<=20; cnt++){
+    li = '<li ' + "id='id"+cnt+"' style='color:blue'>"+"id"+cnt+"</li>";     
+table.push(li);  
+}; 
+table.push('</ul>');
+table =table.join("\n"); 
+document.body.innerHTML = String(table);
+
+/*
+shift() 
+배열의 첫 번째 엘리먼트 삭제 
+삭제한 엘리먼트 값이 undefined 로 남지 않고 완전히 삭제된다. (메소드 활용)
+length 의 값이 하나 줄어듬
+빈 배열이면 undefinded 가 반환 됨
+인덱스가 하나씩 당겨짐 
+
+pop() 마지막 엘리먼트 삭제 
+
+splice() 
+중간에 있는 엘리먼트들을 삭제 => 범위 지정 가능  (시작할 인덱스,삭제할 개수 ,대체할 것 )
+엘리먼트를 삭제하고 삭제한 위치에 세 번째 파라미터 삽입
+*/
+
+var value = [1,2,3,4,5];
+console.log(value.splice(0,4)); //1번 인덱스부터 2번 인덱스까지 삭제 
 console.log(value);
+var k = ["가","나","다","라"];
+console.log(k.splice(0,2,3)); //0번,1번 반환 (0,2)
+console.log(k);
+
+/*
+sort() 정렬
+파마리터로 함수를 받을 수 있다. 
+sort 대상 배열도 정렬된다. 
+값이 undefined 면 끝으로 이동
+숫자에 해당하는 Unicode 의 code point 로 정렬
+[7,1234,26,101] => [101,1234,26,7] 
+왼쪽에서 오른쪽으로 코드 포인트로 비교하여 sort 하기 때문에 이런 결과가 나오는 것
+sort() 파라미터에 함수를 작성하고 함수에서 정렬해야 한다. 
+*/
+
+var value = [4,2,1,3];
+copyValue = value.slice();
+console.log(value.sort());
+console.log(value); //원본도 정렬됨.값이 보존이 되어야 하면 
+console.log(copyValue); 
+
+var value = [,,1,2];
+console.log(value.sort()); 
+
+var value = [101,26,7,1234];
+console.log(value.sort());  
+
+/* 
+sort 알고리즘
+콜백함수 => 함수를 반복할 때 마다 자바스크립트 엔진이 함수를 호출하는 것 
+반환된 값을 가지고 또다른 처리
+
+sort() 
+*/
+var val = [26,101,7,1234];
+val.sort(function(one,two){
+    console.log(one,two); 
+    return two-one; //역순 정렬
+    return one-two //정방향 정렬
+});
+console.log(val);
+
+/*
+reverse() 
+배열 엘리먼트 위치를 역순으로 바꿈
+엘리먼트 값이 아닌 인덱스 기준
+대상 배열도 바뀜.
+*/
+
+
+/*
+isArray() 
+함수. 따라서 Array.isArray() 로 해야한다. 
+체크 대상이 배열이면 true 아니면 false 로 해야 한다. 
+서버에서 Json 타입으로 데이터를 가져옴 
+Json 타입 안에는 { : } 형태와 [] 형태 .. 존재 
+읽은 것 마다 { : } 인지 [] 인지 체크를 해 주어야 한다. 
+타입에 따라서 다른 함수를 호출해서 실행하도록 동작시키기 때문 
+
+*/
+console.log(Array.isArray([1,2]));
+console.log(typeof {a:1});
+console.log(typeof [1,2]); //배열인데 오브젝트로 나온다. 기존 방식으로는 배열인지, 객체인지 체크가 불가능 
+console.log(typeof null); 
+
+/*
+인덱스 처리 메소드 
+indexOf(검색 시작 인덱스) 
+파라미터 값과 같은 엘리먼트의 인덱스 반환
+-왼쪽에서 오른쪽으로 검색 
+- 값이 같은 엘리먼트가 있으면 검색 종료 
+- 데이터 타입까지 체크
+두 번째 파라미터의 인덱스부터 검색 
+String 과 Array 의 indexOf() 차이
+*/
+
 
