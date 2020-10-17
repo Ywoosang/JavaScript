@@ -336,3 +336,4 @@ NaN 여부
 console.log(isNaN("ABC"));
 console.log("NaN과NaN 비교 ES5:",NaN === NaN);
 console.log("NaN과NaN 비교 ES6:",Object.is(NaN,NaN));
+

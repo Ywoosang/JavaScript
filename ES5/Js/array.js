@@ -301,9 +301,254 @@ indexOf(검색 시작 인덱스)
 파라미터 값과 같은 엘리먼트의 인덱스 반환
 -왼쪽에서 오른쪽으로 검색 
 - 값이 같은 엘리먼트가 있으면 검색 종료 
-- 데이터 타입까지 체크
+- 데이터 타입까지 체크 
+- 없으면 -1 반환 
 두 번째 파라미터의 인덱스부터 검색 
 String 과 Array 의 indexOf() 차이
 */
 
+var value = [1,2,5,2,5];
+console.log((value.indexOf(5)));
+console.log((value.indexOf("5"))); // 타입까지 보기 때문에 X -1 반환
+console.log(value.indexOf(5,3));
+console.log(value.indexOf(5,-2)); //음수면 length 를 더함
 
+var value = [1,2,5,2,5];
+console.log(value.lastIndexOf(5)); //오른쪽에서 왼쪽으로 비교하는게 스펙적 측면에서 더 빠르다(뒤에서 앞으로 검색)
+
+
+/*
+콜백 함수를 호출 
+시맨틱과 독립성
+
+for Each()
+엘리먼트 값, 인덱스 , 배열 전체 
+두 번째 파라미터에 this 로 참조할 오브젝트를 넣을 수 있다. 
+*/
+
+var list = ["가","나","다","라"];
+list.forEach(function(el,index,array){
+    console.log(el,index,array);
+}); 
+
+/*
+콜백 함수를 분리(독립성)
+코드 중복을 피해서 콜백 함수를 빼기: 일반적 방법
+*/
+var all = function(val,index,all){ //콜백 함수
+    console.log(val,index,all);
+};
+list.forEach(all);
+
+/*
+this 로 오브젝트 참조
+*/
+var list = [1,2];
+var fn = function(el,index,all){
+    console.log(el+this.ten);
+};
+list.forEach(fn,{ten:10});
+
+/* 
+forEach()
+시작할떄 이미 반복 범위가 결정되어 있다
+엘리먼트를 추가하더라도 처리하지 않는다. 
+현재 인덱스보다 큰 인덱스의 값을 
+변경하면 변경된 값을 사용한다. 
+- 현재 인덱스보다 작은 인덱스의 값을 변경하면 처리하지 않는다. 
+현재 인덱스보다 큰 인덱스의 엘리먼트를 삭제하면 
+배열에서 삭제되므로 반복에서 제외된다. 
+-추가는 처리하지 않지만, 삭제는 반영 
+*/
+var list = [1,2,3];
+var fn = function(el,index,all){
+    if(index===0){
+        list.push("AB"); //배열을 처음 읽었을 때, 배열 끝에 "AB" 를 첨부
+    };
+    console.log(el); //반복하는 도중에 배열에 엘리먼트를 추가하면 처리하지 않음
+};
+list.forEach(fn)
+
+var list = [1,2,3];
+var fn2 = function(el,index,all){
+    if(index ===0){
+        list[1]= "변경"; //현재 인덱스 보다 큰 인덱스 값 변경하면 변경된 값을 사용한다.
+    };
+    console.log(el); 
+}
+list.forEach(fn2)
+
+var list = [1,2,3];
+var fn2 = function(el,index,all){
+    if(index ===0){
+        list[1]= "변경"; //현재 인덱스 보다 큰 인덱스 값 변경하면 변경된 값을 사용한다.
+    };
+    console.log(el); 
+}
+list.forEach(fn2)
+
+var list = [1,2,3];
+var fn2 = function(el,index,all){
+    if(index ===0){
+        delete list[2];   //삭제는 반영 
+    };
+    console.log(el); 
+}
+list.forEach(fn2)
+
+//forEach() 는 시맨틱 접근
+
+/*
+for 과 forEach() 차이
+
+forEach() 는 시맨틱 접근
+처음부터 끝까지 반복한다는 시맨틱
+반복 중간에 끝나지 않는다는 시맨틱
+시맨틱으로 소스 코드의 가독성 향상
+
+for() 는 함수 코드를 읽어야 알 수 있다. 
+break , continue
+
+forEach() 는 반복만 하며
+- 콜백 함수에서 기능 처리 , this 사용 가능 
+
+forEach() 는 인덱스 0 부터 시작
+- for() 와 같이 인덱스 증가 값ㅇ르 조정할 수 없음
+- 뒤에서 앞으로 읽을 수 도 없음, 이것도 시맨틱 접근 
+*/
+
+
+//함수 호출 시간 측정
+var start = Date.now();
+//배열에 1부터 1,000,000 까지 작성
+for(var cnt=1,list=[]; cnt<=1000000; cnt++){
+    list.push(cnt);
+} ;
+var check = function(el,index,all){
+   
+}; 
+console.log((list));
+
+list.forEach(check);
+var end = Date.now();
+console.log(end-start);
+
+
+/*
+every() 
+시맨틱 접근 
+배열의 엘리먼트를 하나씩 읽어가면서 
+false를 반환할 때까지 콜백 함수를 호출
+-false 가 반환되면 반복 종료
+-false 를 반환하지 않으면 true 반환
+false 가 되는 조건이 배열의 앞에 있을 때 효율성 높음
+
+some()
+배열의 엘리먼트를 하나씩 읽어가면서 
+true 를 반환할 때까지 콜백 함수 호출 
+- true 가 반환되면 반복 자동 종료
+- true 를 반환하지 않으면 false 반환
+*/
+
+var value = [10,20,30,40];
+var  fn = function(el,index,all){
+    console.log(el);
+    return el < 25; 
+ 
+};
+var result = value.every(fn);
+console.log("결과:",result); 
+
+
+
+var value = [10,20,30,40]
+var fnc = function(el,index,all){
+    if(el>30){ 
+        return true; 
+    };
+    console.log(el);
+};
+
+var ret = value.some(fnc); 
+console.log(ret);
+
+/*
+filter() 
+시맨틱 접근 
+배열의 엘리먼트를 하나씩 읽어가면서 
+- 콜백 함수에서 true 를 반환하면 
+- 현재 읽은 엘리먼트를 배열로 반환
+조건에 맞는 엘리먼트를 추려낼 때 유용
+*/ 
+
+var value = [10,20,30,40];
+var fn = function(el,index,all){
+    return el>35;
+};
+var result = value.filter(fn);
+console.log(result); // 배열로 반환 
+
+
+/*
+map()
+시맨틱 접근
+배열의 엘리먼트를 하나씩 읽어가면서 
+- 콜백 함수에서 반환한 값을 
+새로운 배열[] 에 첨부하여 반환
+*/
+var value = [10,20,30];
+var fn = function(el,index,all){
+    return el +this.add;
+};
+var point = {add:100};
+var result = value.map(fn,point);
+console.log(result); //배열로 반환 
+
+
+/*
+반환 값을 파라미터 값으로 사용하는 메소드
+reduce()
+data : 반복 대상 
+파라미터 : 콜백 함수 , 초깃값 opt
+반환: 콜백 함수에서 반환한 값 
+forEach() 처럼 시맨틱 접근 
+배열 끝까지 콜백 함수 호출 
+- 파라미터 작성 여부에 따라 처리가 다름 
+*/
+
+
+/*
+처음 호출할 때 
+prev 에 0번째 인덱스 값 들어감 , curr에 1번째 인덱스 값 들어감
+두 번째 호출할 때 
+prev 에 직전에 return 값 들어감 , curr 에 2번째 인덱스 값 들어감 
+
+
+두번째 파라미터를 작성하면, prev 에 두번째 파라미터의 값이 들어가고 , 
+curr 에 0번째 인덱스 값이 들어감 
+*/
+var value = [1,3,5,7];
+var fn = function(prev,curr,index,all){
+    console.log(prev +","+curr);
+    return prev +curr;
+};
+var result = value.reduce(fn);
+console.log("결과",result); 
+
+
+var arr = ["가","나","다","라","마"];
+var fn = function(prev,curr,index,all){
+    return prev+curr
+}
+var a = arr.reduceRight(fn,"바")
+console.log("결과",a); 
+
+/*
+Boolean 인스턴스 생성
+new Boolean()
+*/
+var value =[undefined,null,NaN,0,""];
+for(var cnt=0; cnt<value.length; cnt++){
+    var Obj = new Boolean(value[cnt]);
+    console.log(Obj+1); 
+};
