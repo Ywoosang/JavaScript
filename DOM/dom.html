@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+    <title>JavaScript DOM Element</title>
+    <script src="Js/first.js" defer></script>
+</head>
+
+<body>
+    <div>Dom 접근하기</div>
+
+	<h1>HTML 태그 이름을 이용한 선택</h1>
+	<ul>
+		<li>첫 번째 li!</li>
+		<li>두 번째 li!</li>
+		<li>세 번째 li!</li>
+		<li>네 번째 li!</li>
+        <li>다섯 번째 li!</li>
+        
+    </ul>
+    <div>첫 번쨰 div</div> 
+    <div>두 번쨰 div</div>
+    <div>세 번쨰 div</div>
+    <script>
+        var make = document.getElementsByTagName("li");
+        console.log(typeof make); 
+        console.log(make);
+        for(var i=0; i<make.length; i++){
+            if(i % 2 == 0){
+                make[i].style.color ="blue" ; 
+            }else{
+                make[i].style.color ="red";
+            }
+        };
+        var makeText = document.getElementsByTagName('div');
+        newText = makeText.item(0); 
+        newText.innerHTML = "Dom 접근3" ;
+
+        var div1 = document.getElementsByTagName('div');
+        div1 = div1.item(2);
+        div1.innerHTML = "변경"; 
+        div1.nextElementSibling.innerHTML = "변경 다음";
+        div1.previousElementSibling.innerHTML = "변경 이전";
+
+
+        
+    </script>
+</body>
