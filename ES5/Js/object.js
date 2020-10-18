@@ -337,3 +337,150 @@ console.log(isNaN("ABC"));
 console.log("NaN과NaN 비교 ES5:",NaN === NaN);
 console.log("NaN과NaN 비교 ES6:",Object.is(NaN,NaN));
 
+
+
+/*
+defineProperty()
+대상 오브젝트에 프로퍼티 추가  도는 프로퍼티 속성 변경
+프로퍼티마다 상태를 갖고 있음 
+- 상태 : 변경/ 삭제 /열거 가능 여부 
+- 프로퍼티를 추가할 때 상태 결정
+- 1. 첫 번째 파라미터에 프로퍼티를 추가할 오브젝트 작성
+- 2. 두 번째 파라미터에 프로퍼티 이름을 작성 (객체로 여러개)
+- 3. 세 번째 파라미터 {value:"Js북"} 에서 
+ -value 는 프로퍼티 값을 나타는 속성!
+ -"JS북" 은 속성 값으로 실행 결과 처럼 프로퍼티 book 의 값이 됨. 
+*/
+var obj = {};
+Object.defineProperty(obj,"book",{ 
+    value:"JS북",
+    enumerable : true //열거 가능 여부 
+});
+console.log(obj); 
+
+
+/* 
+{} 의 default 상태는 true
+defineProperty의 default 상태는 false임.
+즉 , 변경/삭제/열거가 가능하려면 enumerable : true 등 별도의 설정 필요
+*/
+
+var obj = {} ;
+Object.defineProperties(obj,{
+    soccer : {
+        value :"축구", //value 속성 
+        enumerable :true
+    },
+    baseball : {
+        value : "야구",
+        enumerable :false  //flase 로 설정하면 for 문에서 열거가 불가 
+    },
+    basketball :{ 
+        value : "농구",
+        enumerable : true,
+        configurable: true
+    }
+});
+for(var name in obj){
+    console.log(name+":"+obj[name]);
+};
+delete obj.soccor;
+console.log(obj.soccor);
+
+
+/*
+writeable : true => 변경 가능
+*/
+var obj = {};
+Object.defineProperty(obj,"computer",{
+    value : "com1",
+    writable:true 
+});
+console.log(obj.computer);
+obj.computer = "변경가능" //원래는 obj.book 이 com1   
+console.log(obj.computer);
+ 
+
+/*
+getter, setter
+
+getter : oop 용어
+var result = obj.book; 코드를 만나면 
+- obj.book 의 get 함수가 호출되며 
+- get 함수에서 "JS책" 을 반환
+- 반환된 "JS책" 을 result 변수에 할당
+obj.book.get() 처럼 함수로 호출하면 에러 발생
+*/
+/*
+form.id = "아이디" ; 코드를 만나면
+- form.book 의 set 함수를 호출하면서 "아이디" 를 파라미터 값으로 넘겨줌
+- data 의 title(프로퍼티명) 프로퍼티에 "아이디" 를 설정 
+form.id; 코드를 만나면
+- obj .book 의 get 함수가 호출되며
+- get 함수에서 data.title 값을 반환
+- setter 에서 설정한 "아이디" 반환
+*/
+var form = {}, data={};
+Object.defineProperty(form,"id",{
+    get : function(){
+        return data.title
+    },
+    set: function(param){
+        data.title = param; //data 에 
+    }
+});
+ 
+form.id = "아이디"; //set 함수를 호출하면서 "비밀번호" 를 파라미터 값으로 넘겨줌 ;
+console.log(form.id); 
+
+
+/*
+getPrototypeOf()
+파라미터 : 대상 인스턴스
+파라미터의 prototype 에 연결된 프로퍼티 반환
+*/
+function Book(point){
+    this.point = point; //Book 객체에 point 설정 
+};
+ 
+Book.prototype.getPoint = function(){}; //get point 와 set point 를 연결 
+Book.prototype.setPoint = function(){};
+
+var obj = new Book(100); //new 연산자로 인스턴스 만듬 , obj에 할당
+var result = Object.getPrototypeOf(obj); // 파라미터에 생성한 인스턴스 넣음
+//그러면 , prototype 에 연결되어 있는 getpoint 와 setpoint 가 반환 된다.
+for(var key in result){
+    console.log(key+":"+result[key]);
+};
+//this.point 는 prototype 에 연결되어 있지 않으므로 , 반환하지 않습니다.
+
+/*
+참고 : 
+getPrototypeOf() 는 prototype 에 있는걸 가져오는데 ,
+ES6 스펙인 
+setPrototypeOf() 는 __proto__ 에 설정
+*/
+
+/*
+getOwnPropertyNames()
+오브젝트의 프로퍼티 이름을 배열로 반환 
+열거 가능 여부를 체크하지 않음!!! 
+자신이 만든 프로퍼티가 대상
+- 다른 오브젝트에서 받은 프로퍼티는 제외
+
+keys()
+열거 가능 프로퍼티 이름 반환! => enumerable :true 인것만 
+*/ 
+window.onload = function(){
+    var obj = {id:"Ywoosang"};
+    Object.defineProperties(obj,{
+        passwd : {value:"yd1234"},
+        Usernum : {value :"1"} 
+    });
+    var names = Object.getOwnPropertyNames(obj);
+    for (var k = 0; k<names.length; k++){
+        console.log(names[k]); //names는 배열로 반환하므로
+    }
+    debugger;
+
+};
