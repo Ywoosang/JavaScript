@@ -1,0 +1,449 @@
+var value = 100; 글로벌 변수 
+value = 300; var 키워드 작성하지 않으면 글로벌 변수로 간주하는데 이것이 문제. => 처리 속도가 느려짐
+함수 안에서 value = 100; 같이 글로벌 변수 선언 X 
+
+[let 변수] 
+
+let book = "책";
+- 블록 block 스코프를 가진 변수 
+- 변수가 선언된 블록이 스코프
+
+스코프 적용 기준 
+- 블록{}, 문 , 표현식
+
+블록{} 안과 밖이 스코프가 다름 
+- 변수 이름이 같아도 값이 대체되지 않음
+
+let sports = "축구";  // 밖 블록의 sports 변수 
+if(sports){
+    let sports = "농구"; // 안 블록의 sports 변수 
+    console.log("안:",sports); 
+};
+console.log("밖:",sports)
+
+안 블록의 변수와 밖 블록의 변수가 이름이 같아도 , 각각 존재 => 안과 밖에 스코프가 다름 
+
+블록 안에서 블록 밖의 변수는 접근할 수 있지만
+블록 밖에서 블록 안의 변수는 접근할 수 없다
+
+
+값을 할당하지 않아도 됨. 
+let book; 
+let one,tow ;  
+초깃값으로 undefined 가 사용됨. 
+var 의 undefined 는 사용할 수 있지만 , 
+let 의 undefined 는 사용할 수 없다.
+
+let five = 5, let six =6;
+let을 처음 한 번만 작성해야 한다. 
+let five = 5, var six =6
+콤마로 구분하여 let 과 var 을 같이 사용할 수없음.
+
+
+[블록 스코프] 
+블록이 나왔다 -> 스코프가 다르다 인식하면 심플. 
+
+블록 기준 
+- 중괄호 {코드}
+- function name(){ 코드 }
+- if(a==1){ 코드 }
+
+블록 안과 밖이 스코프가 다름 
+- 변수 이름이 같아도 값이 대체되지 않음
+
+let 을 사용하여 같은 스코프에 같은 이름의 변수를 선언할 수 없음 
+
+let sports = "축구"; 
+sports = "농구";
+console.log(sports);
+let sports = "탁구" // 에러 
+{
+    let sports = "배구";
+    console.log(sports); 
+}; 
+
+[function 블록]
+function 밖의 let 변수를 
+- functuon 안에서 사용 가능(클로저)
+
+[try-catch]
+try-catch 문도 블록 스코프 
+try 블록{} 기준으로 
+- 안과 밖에 같은 이름의 
+- let 변수 선언 가능 
+
+catch() dptj try 밖의 변수 사용  
+
+let file ="music";
+try{
+    let file ="excel";
+    console.log("안:" ,file);
+} catch(e){
+    console.log("catch:",file)
+};
+console.log("밖:",file)
+
+try블록의 안과 밖에 let sports 를 선언했으며 
+안과 밖이 스코프가 다르므로, 변숫값이 각각 설정됨.
+
+catch() 에서 try 밖의 변수 사용 
+- try 블록 안에서 선언한 file 값을 출력하지 않고, try 블록 밖에 있는 file 사용
+
+
+[switch-case]
+switch 문도 블록 스코프 
+switch 블록 기준으로 
+-같은 이름의 let 변수 작성 불가
+-case,default 는 블록 코드가 아님
+
+let item = 1;
+switch(item){
+    case 1: 
+        let name;
+        break;
+    case 2:
+        //let name; switch 블록 안에서 let 을 사용하여 선언한 변수가 있는데, 다시 let 을 사용하여 같은 변수를 선언하면 에러 발생
+    default:
+        log(sports);
+};
+
+실행 에러가 아니라 컴파일 에러 
+
+
+[let 변수와 var 변수 차이]
+
+for() 문에서 반복할 때마다 
+- var 변수는 스코프를 갖지 않음 
+- let 변수는 스코프를 가짐
+
+[let 변수와 this]
+
+글로벌 오브젝트에서 
+- let 변수를 this 로 참조 불가 
+ 
+var music = "음악"; //글로벌 오브젝트(윈도우 오브젝트) 에서 설정
+let sports = "축구"; //window 오브젝트에 설정되지 않음
+console.log(this.music,this.sports);
+
+1. 현재 위치는 글로벌 오브젝트 
+2. this.music 에서 window 오브젝트를 참조하여 music이 window 오브젝트에 설정되어 있으므로 음작이 출력 
+3. this.sports 에서 sports(let변수) 가 window 에 설정되지 않으므로, undefined가 설정 
+
+
+-let 변수는 글로벌(window) 오브젝트에 설정되지 않음 
+-let 변수를 블록 안에 작성해야 하지만, 블록이 없으므로 ,엔진이 블록을 만들고 
+이를 스코프로 사용하여 설정하는 개념 
+
+Script 는 하나의 브를록 개념으로 
+- script 에 작성한 모든 파일에서 공유함. 
+= > global 오브젝트에서 작성한 let 변수 공유 가능 
+
+
+[ES6 호이스팅]
+let 변수는 호이스팅 되지 않음 
+- 즉, let 변수 앞에서 변수 사용 불가 
+let 변수를 인식하는 시점
+
+1. 초기화 단계(코드를 실행하기 전)에서 정적 환경의 
+- 선언적 환경 레코드에 변수 이름을 바인딩.
+3. 이때, var 변수는 undefined를 초깃값으로 설정하고 
+- let 변수는 초깃값을 설정하지 않습니다. 
+
+4. 엔진에서 이런 처리를 
+- 초기화자(Initializer) 로 구분하고 있습니다.
+
+5. 변수 이릉으로 식별자를 해결할 떄
+- 변수에 값이 있으면 변수로 인식하고
+- 변수에 값이 없으면, 변수로 인식하지 않는 개념
+6. let 변수 선언을 실행하면 그떄, 값이 설정되며 
+- 값을 할당하지 않고, 변수를 선언만 하면 
+- 엔진이 undefined 를 할당 
+
+7. 따라서 변수 선언을 실행한 후에는 변수가 값을 갖고 있으므로 변수를 인식 가능
+
+let 변수가 호이스팅이 불가한 이유는 선언을 실행하는 동시에 값이 설정되기 때문
+var 은 선언부터 하고(undefined 도 값) 후에 실행하는데 
+let 변수는 선언과정이 없으니 앞에서 호출하면 undefined 를 출력하지 않음  
+
+[const 변수]
+값을 바꿀 수 없는 변수 선언
+초깃값을 작성해야 한다 
+- 반드시 값을 작성, 변수 선언만 불가 
+- 표현식 작성 가능, 평가 결과 사용 
+
+const 변수 전체를 바꿀 수는 없지만, 
+- Object 의 프로퍼티 값을 바꿀 수 있음
+- 배열의 엘리먼트 값도 바꿀 수 있음
+
+JS 에서 상수는 대문자 사용이 관례 
+const POINT = 200; 
+
+[변수 사용을 검토할때 우선순위] 
+1. const 사용 가능 검토
+2. let 사용 가능 검토 
+3. var 사용 
+
+
+[Arrow Function]
+화살표 함수 
+(param) => {함수 코드} 형태
+function(){} 의 축약 형태이지만
+- this 참조가 다르므로 고려
+
+[함수 블록 사용]  
+- 함수 블록과 return 작성 생략한 경우 
+const total =(one,two) => ont + two;
+console.log(total(1,2))
+
+- 함수 블록{} 만 작성한 형태 
+const total = (one) => {};
+console.log(total(1));
+함수 블록만 작성하면 undefined 를 반환 => return 을 작성하지 않은 것과 같음
+
+-{key:value} 를 반환하는 형태 
+const point = function(param){
+    return {book:param} 
+}
+
+화살표 함수로 축약
+const point = (param) => ({book:param})// 객체로 반환하고 싶으면 반드시 소괄호를 앞뒤로 작성
+const result = point("책");
+for (const key in result){
+    console.log(key+":"+result[key]);
+};
+
+
+[파라미터 사용]
+파라미터가 하나일 때 
+const func = param => param+10;
+console.log(func(10)); 
+
+[화살표 함수 구조]
+function 을 => 로 표기하는 것이 전부가 아님 
+화살표 함수는 일반 함수와 구조가 다름 
+- 화살표 함수는 나름의 특징이 있음
+
+1. prototype 과 constructor 가 없다.
+-  __proto__ 는 함수니까 당연히 가지고 있음 
+2. prototype 메소드를 연결하여 확장할 수 없음 
+3. prototype 이 없으므로 그만큼 가벼움
+4. new 연산자로 인스턴스를 생성할 수 없음(constructor 가 없어서) => 생성자 함수로 사용할 수 없음 
+
+[arguments 사용불가] 
+ES5 에서는 파라미터가 유동적일 때 arguments 를 사용.
+ES6 에서는 arguments 대신에 rest 파라미터 사용 
+
+[화살표 함수에서 this]
+var title = "책";
+const book = {
+    show:() => console.log(this.title)
+};
+book.show();
+
+1. show() 화살표 함수에서 
+- this 가 window 오브젝트를 참조하는 것은 
+
+2. 함수 밖 스코프의 변수를 사용하듯이 
+- show() 의 스코프인 book 오브젝트에 => show의 스코프는 book 오브젝트 
+  설정된 스코프의 this 를 
+  화살표 함수에서 this 로 사용하기 때문 
+3. book 오브젝트가
+글로벌 오브젝트에 설정되므로 this 가 window 오브젝트를 참조하게 됨.
+
+화살표 함수에서 정적 스코프의 this 를 사용 
+정적(렉시컬) 스코프란 
+- 엔진이 해석할 때 , 화살표 함수를 만나면 
+- function 오브젝트를 생성하고 
+- 화살표 함수가 속한 스코프를 
+  생성한 오브젝트에 바인딩 
+
+오브젝트에 바인딩된 스코프의 this를 
+- 화살표 함수에서 this 로 사용
+
+
+[인스턴스와 화살표 함수]
+- 인스턴스에서 화살표 함수의 작성 위치에 따라 
+- this 가 참조하는 오브젝트가 다름 
+
+1. prototype 에 메소드로 작성( 화살표 함수'에' 프로토타입 연결하지 못하는 것이지, 
+일반함수에 프로토타입으로 화살표 함수 연결 가능)
+
+var point = 200;
+const Point = function(){
+    this.point = 100; //const는 let 과 마찬가지로 블록레벨 스코프를 가진다. 
+};
+Point.prototype.getPoint = () => {
+    console.log(this.point) //프로토 타입에 연결한 화살표 함수는 글로벌을 참조하므로 200 이 출력 
+};
+new Point().getPoint(); 
+2. prototype 의 메소드 안에 작성
+
+
+const Point = function(){
+    this.point = 100;
+};
+Point.prototype.getPoint = function(){ //함수 내에서 this는 인스턴스를 참조함. 
+    const add = () => this.point + 20;   //화살표 함수에서도 this가 생성한 인스턴스를 참조함. (인스턴스개념일때는 글로벌 참조 X)
+    console.log(add()); //실행되어 return된 값 나옴
+    [1,2].forEach((value) => {
+        console.log(this.point + value);   //콜백 함수자리에 화살표 함수를 밀어넣음
+    })
+};
+new Point().getPoint(); 
+
+
+1. prototype 에 일반 함수를 연결하고 , 함수 안에 화살표 함수를 작성한 상태 
+2. getPoint() 가 일반 함수이므로 
+this 가 생성한 인스턴스를 참조 !!!! 
+3. 또한, 화살표 함수에서도 
+this 가 생성한 인스턴스를 참조. 
+4. 화살표 함수가 글로벌이 아니라 인스턴스를 참조하는 이유는
+=> 화살표 함수의 스코프인 getPoint() 에 설정된 this 를 사용하기 때문.
+화살표 함수의 스코프인 getPoint 에 설정된 this 는 인스턴스 이므로 this 를 참조
+그래서 this.point + 20  은 100 에 20을 더하게 됨. 
+
+
+화살표 함수에 this 가 없다. 
+- 화살표 함수로 function 오브젝트를 생성할 떄 
+- 정적으로 화살표 함수가 속한 스코프의 this 를 화살표 함수에 바인딩한다. 
+- 바인딩된 this 참조가 바뀌지 않으며, 화살표 함수에서 this로 사용한다. 
+- 일반 함수는 call() 등으로 바꿀 수 있다.
+
+메소드 보다 함수로 사용하는 것이 효율성이 높다. 
+
+
+Iteration 반복
+for() 문의 반복 개념과 차이가 있음
+
+const list = [10,20];
+for (let value of list{
+    console.log(value);
+});
+const obj = list[Symbol.iterator]();
+console.log(obj.next()); //{value: 10 , done : false}
+console.log(obj.next()); //{value: 20 , done : false}
+console.log(obj.next()); //{value: undefined , done : true}
+
+next() 를 호출한 하면 {value: 10 , done : false} 같이 한번에 하나씩 반환 
+
+이터레이션을 위한 프로토콜 protocol (규약) 가지고 있음
+프로토콜에 따라 이터레이션 수행
+프로토콜에 맞으면 이터레이션 가능.
+
+[이터레이션 프로토콜]
+1. 오브젝트가 이터레이션(반복) 할 수 있는 구조여야 한다. 
+ex) [10,20] 가능, 100 불가능
+
+이터레이션 함수를 갖고 있어야 한다. => 오브젝트에 Symbol.iterator 라는 함수가 있어야 한다. 
+이터레이션 프로토콜 
+- 이터러블 iterable 프로토콜 
+=> 반복 가능해야한다. 
+- 이터레이터 iterator 프로토콜 
+=> 반복 가능한 오브젝트를 이터레이터 오브젝트로 만드는 프로토콜
+
+정의하는 이유 = 확장성 
+개발자 코드로 프로토콜을 맞추면 
+- 이터레이션 할 수 없는 오브젝트를 이터레이션 할 수 있도록 만들 수 있음 
+
+
+[이터러블 프로토콜]
+오브젝트가 반복 할 수 있는 구조이어야 하며 
+Symbol.iterator 를 갖고 있어야 한다. 
+
+const list = [10,20];
+console.log(list[Sumbol.iterator]);
+//배열로 생성한 리스트 오브젝트에는 심볼 이터레이터가 있다.
+
+아래의 빌트인 오브젝트는 
+- 디폴트로 이터러블 프로토콜을 갖고 있음 
+- 즉, Symbol.iterator 를 갖고 있음 
+- Array,Argument,String,TypedArray,Map,Set,DOM NodeList
+
+[이터러블 오브젝트]
+
+이터러블 프로토콜을 갖고 있는 오브젝트 
+반복할 수 있는 구조이면서 , Symbol.iterator() 을 가지고 있다.
+
+1. __proto__ 를 펼치면 
+Array 오브젝트의 메소드가 표시됨.
+
+2. 아래로 내려가면 Symbol(Symbol.iterator) 가 있음.
+- 따라서 Array 오브젝트는 이터러블 오브젝트임.
+
+3. 또한 Symbol(Symbol.iterator) 를 펼치면 
+- __proto__ 에 Function 오브젝트의 메소드가 연결되어 있음 
+- 즉, Symbol.iterator 는 함수임
+
+4. Symbol.iterator 가 함수이므로, 호출할 수 있음
+
+자체 오브젝트에는 없지만 
+- 이터러블 오브젝트를 상속받아도 됨. 
+- 즉, prototype chain(__proto__)에 있으면 됨 
+- 예를 들어 , Array 오브젝트를 상속받으면, 이터러블 오브젝트가 됨.
+
+상속 : prototype chain 에 연결되어 있는것 => __proto__ 
+
+
+[이터레이터 프로토콜]
+이터레이터 iterator 프로토콜 
+- 값을 순서대로 생성하는 방법(규약)
+
+이터레이터 오브젝트
+- Symbol.iterator() 를 호출하면 
+- 이터레이터 오브젝트를 생성하여 반환 
+- 이터레이터 오브젝트에 next() 가 있음 
+- 생성한 오브젝트를 이터레이터라고도 부름
+
+const list = [30,40];
+const obj = list[Symbol.iterator]();
+console.log(obj.next());
+console.log(obj.next());
+console.log(obj.next());
+
+
+[let , const 사용 기준] 
+let : 변경할 수 있다
+const : 변경할 수 없다 
+
+let,const 변수의 시맨틱을 우선하여 사용 
+- 값이 변경되면 let
+- 초깃값이 변경되지 않으면 const 
+
+[spread] 
+
+[...iterable]
+[...] 처럼 [] 안에 점(.) 3개를 작성하고 , 이어서 이터러블 오브젝트 작성
+이터러블 오브젝트를 하나씩 전개
+{key:value} 의 Object 가
+- 이터러블 오브젝트는 아니지만 전개 가능
+
+const list = [21,22];
+console.log([11,...list,12]);
+
+const obj = {key:50};
+console.log({...obj});  
+
+--> 코드창에서 주석으로 설명 적어놓음
+
+[Destructuring]
+Destructurring Assignment
+
+let one,two, three;
+const list =[1,2,3];
+[one,two,three] = list;
+console.log(one);
+console.log(two);
+console.log(three);
+console.log(list); //  원 데이터는 변경되지 않음
+
+분할 / 분리 => 분할할당
+
+
+
+
+
+
+
+
+
+
