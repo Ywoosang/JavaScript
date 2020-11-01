@@ -69,7 +69,23 @@ console.log(result);
 두 번째 파라미터로 배열에 프로퍼티 이름을 작성할 경우
 이름이 같은 것만 result 에 설정
 {point:11} 이 출력되지 않음
+
+세 번째 파라미터는 사람이 보기 좋게 하기 위한 줄바꿈 , 들여쓰기(숫자로입력), 앞에 문자입력(문자로 입력)
+
 */
 var data = {book:'책', point:11, amount:90};
 var result = JSON.stringify(data,['book','amount'],'\n');
 console.log(result);
+ 
+/*
+parse() 
+JSON 타입을 Js 타입으로 변환
+작성 주의
+- "123." 을 "123.0" 으로 작성 
+- "0123" 처럼 첫 자리에 0 사용 불가 
+- 대문자 "NULL" 사용 불가, "null" 사용
+- 10 진수 사용 
+
+서버에서 데이터를 가져오는 동안에는 어떤 일이 발생할 지 모르므로 
+따라서, 데이터를 송수신 할때는 try,catch 문 안에 작성한다.
+ */

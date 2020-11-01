@@ -63,7 +63,8 @@ var obj = {book:"책"};
 var instance = new Number(456);
 };
 
-/*인스턴스의 프리미티브 값
+/*
+인스턴스의 프리미티브 값
 var obj = new Number(123);
 -인스턴스를 생성하면 
 파라미터 값을 인스턴스의  프리미티브 값을 설정

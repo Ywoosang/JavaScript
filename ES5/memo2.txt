@@ -1,0 +1,431 @@
+this 
+
+키워드
+obj.name() 형태로 호출한 
+- 함수(메소드) 에서 this 로 
+- 인스턴스(오브젝트) 를 참조 
+
+실행 콘텍스트의 
+- this 바인딩 컴포넌트에 바인딩
+
+[this 와 글로벌 오브젝트] 
+글로벌 오브젝트에서 this 는 
+- 글로벌 오브젝트 참조 
+- this 와 window 오브젝트 
+- window 는 
+- Js 에서 만든 것이 아니며 
+- 글로벌 오브젝트의 스코프도 아님 
+- 그런데, window 와 글로벌 오브젝트를 같은 선상에서 사용 
+Host 오브젝트 개념 사용 
+
+글로벌 오브젝트에 코드 작성 
+- window.onload = function(){
+    // 안이 아니라 밖에 코드 작성
+}
+this 가 window 참조 
+console.log(this === window ) // true 
+
+var value = 100;
+console.log(this.value) //100
+console.log(window.value) //100 
+value는 글로벌 변수. 
+
+this 가 글로벌 오브젝트를 참조하므로, this.value 형태로 글로벌 변수 사용 가능 
+window 가 글로벌 오브젝트를 참조하므로 , window.value 형태로 글러벌 변수 사용 가능 
+
+window = 글로벌 오브젝트 
+로 보아도 무방 
+
+window 오브젝트와 같이 다른 오브젝트를 마치 내것 처럼 사용하는 개념을 Host 오브젝트라고 함. 
+
+
+window.onload = function(){
+    var value = 100;
+    console.log(this.value);  //undefined
+}; 
+this.value 
+- this 가 window 오브젝트를 참조하므로 
+- this.value 로 지역 변수에 악세스 할 수 없습니다.
+
+window.onload = function(){
+    this.value = 100;
+    console.log(window.value); //100 
+};
+-this 가 window 오브젝트를 참조하므로, window 오브젝트에 설정됨. 
+
+
+ - 함수 앞에 . 작성한 오브젝트를 함수에서 this 로 참조한다 기억!! - 
+
+var book = {
+    point: 100,
+    member : {
+        point: 200,
+        get : function(){
+            console.log(this === book.member); // true 
+            console.log(this.point); //200 
+        }
+    }
+};
+book.member.get()  //member 의 메소드를 바로 호출할 수 없음. 
+
+마지막 줄에서 book.memeber.get() 호출 
+- this 가 book 이 아닌 member 오브젝트를 참조
+- book 은 get() 을 호출하는 경로 역할 
+
+console.log(this === book.member);
+- [실행 결과] 에 true 가 출력되며 
+- this 가 book.member 를 참조하기 떄문 
+- 즉, this 바인딩 컴포넌트에 book.member 오브젝트가 설정 
+
+console.log(this.point);
+- this 가 book.member 를 참조하므로 
+- book.point 값인 100 을 출력하지 않고 
+  book.member 의 200 을 출력
+
+[this 와 인스턴스]
+
+인스턴스 목적 
+- 인스턴스마다 고유 값 유지 
+- 한 묶음으로 
+
+인스턴스에서 this 의 목적 
+- this 로 인스턴스를 참조하여 
+- this.name  형태로 프로퍼티에 접근
+name 의 값이 function오브젝트 이면 name 은 메소드 이름
+name 의 값이 number 형태이면 name 은 프로퍼티 이름
+
+__proto__ 프로퍼티 접근 
+- new 연산자로 인스턴스를 생성하면 prototype 에 연결된 프로퍼티가 
+- 인스턴스의 __proto__ 에 첨부되며
+- this.method() 형태로 __proto__ 에 첨부된 method() 호출
+
+여기서 프로토 타입에 연결된 메소드는 모든 인스턴스에서 공유 
+인스턴스마다 고유의 값 유지 
+일관된 환경에서 값만 다르게 가져가는것 
+
+[this 와 인스턴스]
+
+var book = {}; 
+book.Point = function(point){
+    this.point = point; 
+};
+book.Point.prototype.getPoint = 
+    function(){
+        console.log(this.point);
+    }
+var obj = new book.Point(100);
+obj.getPoint();
+
+
+Return value: undefined
+book:
+    Point: ƒ (point)
+        arguments: null
+        caller: null
+        length: 1
+        name: ""
+        prototype:
+            getPoint: ƒ ()   // prototype 에 연결한 함수  => 모든 인스턴스 공유
+            constructor: ƒ (point)
+            __proto__: Object
+        __proto__: ƒ ()
+             
+    __proto__: Object
+
+obj: book.Point 
+    point: 100   // this.point 로 설정됨 this 가 obj 참조 
+    __proto__:
+        getPoint: ƒ ()  // 프로토 타입에 연결된 getPoint 가 인스턴스를 생성할때 첨부된것
+        constructor: ƒ (point)
+        __proto__: Object 
+
+obj.getPoint() 로 호출, this 가 obj 참조 
+obj 는 book.Point 인스턴스 
+book.Point 인스턴스의 point 값 출력 
+
+    
+[this 와 call()]
+
+호출할함수이름.call(참조할 오브젝트,파라미터1,파라미터2...)
+
+getTotal.call(this,10,20)
+- 첫 번쨰 파라미터 => this 로 참조할 오브젝트 
+- 파라미터 opt => 콤마로 구분, 다수 작성 가능/ 타입 상관 없음
+
+
+반환값: 호출된 함수에서 반환한 값
+첫 번째 파라미터에 
+- 호출된 함수에서 this 로 참조할 오브젝트 작성 
+- this 이외의 다른 오브젝트 사용 가능
+
+var value = 100;
+function get(param){
+    return param + this.value;
+};
+var result = get.call(this,20) 
+
+1.get.call(this,20) 
+- 첫 번째 파라미터에 작성한 this를 
+- call 메소드를 사용해서 함수에서 참조하는것!! 
+ 
+
+2.return param + this.value;
+
+- get 함수에서 this 가 첫 번째 파라미터의 this 를 참조 
+- 첫 번째 파라미터의 this 가 글로벌 오브젝트를 참조하므로 
+(var value = 100) 을 사용
+
+
+[object 사용]
+var get = function(value){
+    return this.base * this.rate + value; //value.base 
+};
+var value = {base:20, rate:30};
+var result = get.call(value,50);// value 를 참조하도록 함  => this로 참조할걸 바꾸겠다는 의미
+console.log(result)
+ 
+[숫자 작성] => 잘 사용 X 
+function num(){
+    return this.valueOf(); 
+};
+var result = num.call(123); //this 가 오브젝트를 참조하므로, 숫자123 을 작성하면 에러가 발생해야 하지만
+console.log(result); 
+
+값의 타입 (123 이므로 여기서는 Number) 에 해당하는 
+- Number 인스턴스를 작성하고 
+- 123 을 프리미티브 값으로 설정
+- this 가 Number 인스턴스를 참조
+
+var book = {
+    value : 123,
+    point: {
+        value: 456,
+        get: function(){
+            console.log(this.value);
+        }
+    }
+};
+book.point.get.call(book); //book 을 참조 = >this.value 가 book.value 이므로 123
+book.point.get.call(book.point); //book.point 를 참조 => this.value 가 book.point.value 이므로 456
+
+
+[this 와 apply()]
+
+getTotal.apply(this,[10,20])
+- 함수 호출 방법은 call() 과 같으며 파라미터가 배열인 것만 다름.
+- 두 번째 파라미터 수가 유동적일 떄 사용 
+  call() 은 파라미터 수가 고정일떄 사용 
+
+var obj = {0:10,1:20,2:30};
+var data = [4,5,6];
+
+function get(){
+    for(k=0; k< arguments.lengt; k++){
+        console.log(arguments[k]+this[k]) 
+    };
+};
+get.apply(obj,data);
+
+1. get( ) 함수에서 obj 를 this 로 참조 
+2. 두 번쨰 파라미터 [4,5,6] 을 
+- arguments 를 사용하여 계산 
+- 파라미터 수가 유동적이므로, arguments가 편리 
+
+3. get()의 함수 코드는 바뀌지 않으며 
+- 넘겨 주는 파라미터 값과 
+- this로 참조할 오브젝트만 변경하면 됩니다.
+
+4.Array-like 형태
+
+apply 쓰는 이유 
+=> 데이타 중심 접근
+데이터를 바꿔가면서 함수를 호출하겠다가 목적임 
+함수안에서는 데이터에 따라서 함수의 코드가 움직임 
+data 만 바꿔준다면 함수는 그대로고 몇개를 넣건 상관이 없음 
+arguments[k] 로 사용 몇개를 넣건 arguments 에 저장
+this[k] 로 사용 object 길이 상관이 없음 
+
+[this 와 콜백 함수]
+1.ES5 의 map() ,forEach() 처럼 
+- 콜백 함수가 있는 메소드는 
+- 두 번째 파라미터에
+- this 로 참조할 오브젝트를 작성 (option)
+
+var obj = {value :100};
+var data = [5,6,7];
+
+function callbak(element, index, data){
+    return element + this.value;
+}
+function gat(data){
+    return data.map(callback,obj); 
+}
+var result = gat(data);
+console.log(result) 
+
+첫 번째 파라미터에는 map 에서 호출하는 콜백 함수 
+두 번쨰 파라미터에는 콜백 함수에서 this로 참조할 obj
+
+1. get(data) 파라미터 값으로 data
+2. map 메소드 사용 => 배열 data의 element 들을 하나씩 읽어가면서 반복 
+여기서 obj 를 넘겨줌. => 콜백 함수에서 this 로 참조함 
+
+3. 콜백 함수 호출
+element,index,data  data에는 배열이 들어가고 element,index 에는 5,6,7 
+각각의 값과 인덱스가 반복 
+element = 5 this.value = 100    => 105
+          6                     => 106
+          7                     => 107
+배열로 만들어서 반환 
+[105,106,107]
+
+함수와 메소드는 고정되어 있다 
+=> 데이터만 넘겨주면 처리 
+독립성, 데이터 중심 접근 
+
+[this 와 bind]
+bind(this로 참조할 오브젝트, 호출된 함수의 파라미터 값)
+
+두 번에 나누어 처리 
+- 1.function 오브젝트 생성 
+- 2.생성한 function 오브젝트를 함수로 호출
+생성한 function 을 호출할 때에도 파라미터 작성 가능 
+- 두 개의 파라미터를 병합해서 사용 
+
+var book = {
+    point :123,
+    get : function(){
+        return this,point;
+    }
+};
+var obj = book.get.bind(book); 
+console.log(typeof obj);
+var result = obj();
+console.log(result)
+
+var obj = book.get.bind(book); =>(book) 으로 book을 작성 안하면 get 앞에 있는 book 을 참조하는 것이 아니라 undefined 반환 
+- book.get() 을 호출하지 않고 
+- function 오브젝트를 생성하여 반환 
+- 생성한 function 오브젝트를 
+- 생성한 오브젝트의 프로퍼티인 [[TargetFunction]] 에 설정  
+- 처리를 나누어 하므로 저장 필요 
+
+console.log(typeof obj);
+- obj 타입은 function 오브젝트 
+
+bind() 의 첫 번쨰 파라미터 
+- get() 함수에서 this 로 참조할 오브젝트 작성
+- get() 앞에 작성한오브젝트를 this 로 참조하지 않음
+- 작성하지 않으면 undefined 설정 
+- 생성한 function 오브젝트의 [[BoundThis]] 설정  => 저장
+
+
+var result = obj();
+- bind() 로 생성한 function 오브젝트 호출 
+- book.get() 함수가 호출 
+
+return this.point;
+- this 가 [[BoundThis]] 를 참조 
+- 즉, book 오브젝트를 참조하므로, 123 반환 
+
+
+[파라미터 병합]
+var obj = book.get.bind(this,10,20);
+- 두 번쨰, 세 번째 파라미터에 값을 작성했으며 
+- book.get() 의 파라미터 값으로 넘겨줍니다. 
+- function 오브젝트의 내부 프로퍼티인 [[BoundArguments]] 에 설정 
+
+get() 함수에 파라미터 이름을 
+- 작성하지 않고 arguments 사용 => array like 
+return Array.prototype.slice.call(arguments); => 프로토 타입에 연결된 메소드를 호출한것
+- slice() 는 인덱스 범위의 엘리먼트를 배열로 반환 
+- 인덱스를 작성하지 않으면 arguments 전체 반환 
+
+var result = obj(30,40);
+- book.get() 함수가 호출되며
+- book.get.bind(this,10,20); 에서 
+  10과 20 을 [10,20] 형태로 반환  => 뒤 파라미터들 묶고 
+- 여기에 obj(30,40) 의 30과40을 병합(첨부)하여 반환 =>obj 에서 준 파라미터들을 뒤에 첨부해서 배열로
+
+
+[프로퍼티 연동 방지]
+
+var origin = {member:100};
+var dup = origin; // 오브젝트 할당
+dup.member = 200;
+console.log(origin.member); //200 
+=> 오브젝트를 할당하면 값을 공유하므로, 출력값 200 
+
+var origin = [1,2,3];
+var dup = origin; // 배열 할당
+dup[1] = 200;
+console.log(origin); //[1,200,3];
+=> 배열도 값을 공유 
+
+var origin = {member:100};
+var dup = {};
+for(var name in origin){
+    dup[name] = origin[name];
+};
+dup.member = 200;
+console.log(origin.member);
+console.log(dup.member);
+
+[재귀 함수]
+
+함수 안에서 자신 함수를 호출하는 형태
+
+- 사용 사례 
+{name : {name : {name: value}}}
+[[1,2],[1,2],[1,2]]
+
+var book ={
+    member : {name:100},
+    point : {value:200}
+};
+function show(param){
+    for (var type in param){
+        typeof param[type] === "object" ? show(param[type]) : console.log(type+":",param[type]);
+    }
+};
+show(book);
+
+1.for in 으로 파라미터로 받은 오브젝트 전개 
+2.param[type] 이 오브젝트이면 그 오브젝트를 파라미터로 다시 전개 
+=> 결국 하나씩 다 벗겨지는 효과 
+
+[즉시 실행 함수] 
+
+함수 즉시 실행이란? 
+- 엔진이 함수를 만났을때
+- 자동으로 함수를 실행 
+- 즉시 실행하므로 즉시실행 함수
+(function(){...}()) 형태 
+- 익명함수
+
+
+[클로저]
+Closure 
+- function 오브젝트를 생성할 때 
+함수가 속한 스코프를 [[Scope]] 에 설정하고 
+- 함수가 호출되었을 때 
+[[Scope]] 의 프로퍼티를 사용하는 메커니즘
+[[Scope]] 의 설정과 사용 방법을 이해하면, 클로저는 단지 논리적인 설명 
+
+
+클로저 논리 
+- 실행 중인 function 오브젝트에 작성한 변수, 함수를 선언적 환경 레코드에 설정
+[[Scope]] 의 변수,함수를 
+- 외부 렉시컬 환경 참조에 바인딩 
+- 변수 이름으로 접근하여 값을 사용하거나 변경할 수 있음 
+- 함수를 호출할 수 있음
+
+실행 콘텍스트 : {
+    렉시컬 환경 컴포넌트 : {
+        환경 레코드 : {
+            선언적 환경 레코드 : {},
+            오브젝트 환경 레코드 : {}
+        },
+        외부 렉시컬 환경 참조: {} => 함수가 속한 스코프를 여기에 바인딩
+    }
+}
