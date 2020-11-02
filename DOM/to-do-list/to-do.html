@@ -20,19 +20,25 @@
         <button class ="todo-button" type="submit">
             <i class="fas fa-plus"></i> 
         </button>
+        <!-- 필터 만들어주기  -->
+        <div class="select">
+            <select name="todos" class="filter-todo"> 
+            <option value="all">All</option>
+            <option value="complete">Complete</option>
+            <option value="uncompleted">Uncompleted</option>
+        </select>
+        </div>
     </form> 
+      <!-- 여기에  리스트 아이템들을 append 한다.-->
     <div class="todo-container">
-        <!-- 여기에  리스트 아이템들을 append 한다.-->
-        <ul class="todo-list">
-
-            <!-- div 를 만들어서 ul 에 더하면 된다.  -->
+        <ul class="todo-list"></ul>
+    </div>
+</body>
+</html>
+  <!-- div 를 만들어서 ul 에 더하면 된다.  -->
             <!-- <div class="todo">
                <li></li>
                <button>Checked</button> 
                <button>delete</button>
              
             </div> -->
-        </ul>
-    </div>
-</body>
-</html>
