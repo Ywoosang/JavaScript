@@ -19,19 +19,19 @@ console.log(obj2.next());
 console.log(obj2.next());
 
 // {value: 30, done: false} done = 이터레이터 상태 true 면 종료 
-// next 로 하나씩 돌리는것 step-by-step 호출할 떄 마다
+// next 로 하나씩 돌리는것 호출할 떄 마다 tep-by-step  
 // value : undefined 더이상 처리할 값이 없다. 
 
 /*
-spread : 이터러블 오브젝트를 하나씩 전개 
+spread (...): 이터러블 오브젝트를 하나씩 전개 
 {key:value} 의 Object 가 이터러블 오브젝트는 아니지만 전개 가능
 */
 
 const list3 = [21,22];
-console.log([11,...list3,12]);
+console.log('spread',[11,...list3,12]);
 
-const obj3 = {key:50};
-console.log({...obj3});
+const obj3 = {key:50,key2:60};
+console.log('spread',{...obj3});
 
 /*
 Array spread
@@ -116,7 +116,7 @@ point(...values1);
 /*
 Array-like
 Object 타입이지만 
-- 배열처럼 이터러블 가능한 오브젝트 
+- 배열처럼 이터러블 가능한 오브젝트  (symbol.iterator 가 있음)
 - for() 문으로 전개할 수  있음
 
 작성방법 
@@ -128,12 +128,8 @@ Object 타입이지만
 for ~ in 문으로 전개하면 length 프로퍼티도 전개됨.
 */
 
-const values2 ={0:"가",1:"나",2:"다",length:3};
-for(let k=0; k<values2.length; k++){
-    console.log(values2[k]);
-};
-
-
+ 
+ 
 /*
 rest 와 arguments 차이 
 
@@ -150,3 +146,25 @@ rest 파라미터
 - ...rest 의 __proto__ 가 Array
 */ 
 
+/*
+arguments 오브젝트  
+
+*/
+function testApp(){
+    var cnt= 0 ;
+    var length = arguments.length;  //
+    for(var i=0; i<length; i++){
+        cnt += arguments[i] ;
+    };
+    return cnt;
+};
+var testResult = testApp.apply(this,[1,2,3,4,5]); //배열이 길이가 얼마든 모두 값을 더할 수 있음
+console.log(testResult);   
+
+
+function makeTotalArray(){
+    let arr = arguments[0]+arguments[1]+arguments[2]+arguments[3] //String 형태를 더한 것.
+    return arr;
+}
+const getArguments = makeTotalArray.apply(this,['회원1','회원2','회원3','회원4']);
+console.log(getArguments);
