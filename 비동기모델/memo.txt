@@ -1,0 +1,89 @@
+[Promise]  
+- 자바스크립트는 기본적으로 동기로 실행
+실행이 끝나야 다음 코드를 실행
+
+- Promise 는 비동기로 처리(실행) 
+코드를 연속으로 처리 (실행) 하지 않고 
+중간에 흐름이 끊어졌다가 -> 연결된 코드를 처리할 수 있는 환경이 되었을 때 -> 실행 
+- DOM 스펙에서 JavaScript 스펙으로 전환 
+
+[Promise 처리 흐름] 
+- new Promise() 를 실행 
+파라미터 함수를 실행
+resolve() 를 호출하지 않음 //흐름이 끊어짐
+log("promise") 실행
+obj 변수에 Promise 인스턴스 할당
+
+- obj.then() 을 실행하지 않는다 
+- 마지막 줄로 내려가 log("마지막") 을 실행
+- resolve() 실행한다  //흐름이 연결
+then() 의 첫 번째 파라미터 함수 실행
+log("성공") 실행
+
+
+resolve 를 호출하게 되면 then 의 첫 번쨰 파라미터의 함수가 실행 
+reject 를 호출하게 되면 then 의 두번째 파라미터 함수가 실행
+
+[Promise 상태]
+- 상태는 세 가지이며, 하나만 발생함.
+pending , settled(fulfilled,reject)
+ 
+1. new Promise() 로 인스턴스 생성
+2. resolve 와 reject 이름의 Function 오브젝트를 생성하여 인스턴스에 설정
+3. resolve("성공" ); reject("실패"); 
+실행자 처리를 성공하면 resolve() 가 호출되고, 실패하면 reject() 가 호출됨
+4. 지금 호출하지 않고 코드 끝까지 실행한 후 호출  =>  Promise 의 비동기 처리(실행)
+5. obj.then((value)=> { },(reason)={}) 을 실행하지 않고 아래로 내려감
+6. log("끝") 실행  => 여기서 전체 흐름이 끝나지만, 실행자의 resolve() , reject() 실행이 남아있음
+7. 실행자에서 resolve("성공") 또는 reject("실패") 를 호출. 
+상태가 하나만 발생하므로 상태에 해당하는 함수만 호출 (여기서는 성공)
+8.then() 을 호출. then() 단위로 파라미터의 함수를 실행하게 됨.
+9. then((value)=>{})  실행자에서 resolve("성공") 를 호출하면 then() 의 첫 번째 파라미터 함수가 실행되며,
+resolve("성공") 에서 "성공" 이 value 로 설정됨.
+10. 엔진에서는 상태(fulfilled,rejected) 에 따라 파라미터의 핸들러 함수를 실행한다.
+
+[Promise 인스턴스 생성]
+파라미터 function(resolve,reject){...}
+Promise 인스턴스를 생성하여 반환
+파라미터에 실행자 executer 함수를 작성 
+- 성공,실패 처리 함수 이름
+- 실행자 코드 
+
+[then()]
+
+- 성공과 실패 핸들러 함수를 작성
+promise 인스턴스를 반환
+
+-파라미터
+첫 번쨰 : 성공일때 실행될 핸들러 함수
+두 번째 : 실패일 때 실행될 핸들러 함수 
+
+- 실행자의 resolve(), reject() 에 
+파라미터 값을 다수 작성하더라도 핸들러 함수는 처음 하나만 사용한다. 
+resolve(1,2,3,4) 와 같이 작성하고 
+then((value)=>{console.log(value)}) 로 하면 1만 출력됨.
+다수의 파라미터 값을 넘겨주려면 배열, Object 등을 사용해야 한다.
+
+then() 의 return
+- then() 에서 Promise 인스턴스를 반환한다.
+
+const obj = new Promise((resolve,reject)=> {
+    resolve(100); 
+})
+
+
+
+
+
+
+Ajax 모델
+- <form>전송 버튼 클릭 등의 UI 가 발생하면 
+자바스크립트가 버튼 클릭을 인식하여 에러 체크 등의 전처리를 수행 
+form 을 서버로 전송하거나 (전체) form 에서 데이터를 추출하여 데이터만 서버로 전송(부분)
+- 서버 처리
+데이터를 데이터 베이스에 저장하는 등의 처리 
+처리 결과를 데이터(데이터,값)를 브라우저로 정송
+- 브라우저 처리
+서버에서 전송한 데이터를 받아
+HTML,CSS,DOM,JavaScript로 콘텐츠 표현
+

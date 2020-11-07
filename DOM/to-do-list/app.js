@@ -33,7 +33,7 @@ function addTodo(event){
     newTodo.classList.add('todo-item'); //li 태그에 .todo-item 클래스 더함
     todoDiv.appendChild(newTodo) //만든 div 태그에 만든 li 태그 집어넣음
     
-    //만들어진 ToDo 의 내용을 
+    //만들어진 ToDo 의 내용을 로컬에 저장
     saveLocalTodos(todoInput.value); 
     
     

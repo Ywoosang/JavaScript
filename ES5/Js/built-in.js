@@ -19,17 +19,22 @@ undefined , Null , Boolean, Number,String,Object
 true , false
 -Object오브젝트
 {key:value} 형태
+
+
 -Array 오브젝트 
 [1,2,"A","가나다"] 형태 
 -Function 오브젝트
-function abc(){} 형태
+function abc(){} 형태\
+
 -Math 오브젝트 
 abs(),round() 등의 수학 계산
+
 -Date 오브젝트
 연월일,시분초
 -JSON 오브젝트
 [{"name":"value"}] 형태
 서버와 데이터 송수신에 사용 
+
 -RegExp 오브젝트
 ^,$ 와 같은 정규 표현식
 -글로벌(global) 오브젝트

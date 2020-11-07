@@ -233,7 +233,7 @@ function getTotal1(){
     return this.one + this.two; //this는 첫번째 파라미터로 넘겨준 value, 즉 {one:10.two:20}을 참조함
      //value.one + value.two 와 같음 
 };
-var result = getTotal1.call(value) 
+var result = getTotal1.call(value) ;
 //call 메서드의 첫번째 파라미터는 호출된 함수에서 this 키워드를 사용해서 참조한다. 
 console.log("값:",result);
 
@@ -278,8 +278,17 @@ function makeSum(one){
     console.log("아규먼트 길이는:",arguments.length);
     return one+ arguments[0]+ arguments[1] + arguments[2];
 };
-var result = makeSum.apply(this,[10,20,30]);
+var result = makeSum.apply(this,[10,20,30]); //참조할 대상은 makeSum
 console.log("결과:",result); 
+
+
+function makeTotalArray(){
+    let arr = arguments;
+    return arr;
+}
+const getArguments = makeTotalArray.apply(this,['회원1','회원2','회원3','회원4']);
+console.log(arr);
+
 
 
 /* 
@@ -397,7 +406,7 @@ Object.defineProperty(obj,"computer",{
     writable:true 
 });
 console.log(obj.computer);
-obj.computer = "변경가능" //원래는 obj.book 이 com1   
+obj.computer = "변경가능" //원래는 obj.computer 이 com1   
 console.log(obj.computer);
  
 
