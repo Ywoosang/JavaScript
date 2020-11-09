@@ -111,7 +111,14 @@ console.log(one && zero && nine);// zero 변수값이 0 이므로, false ,false 
 //exp 위치의 표현식을 먼저 평가 true 이면 exp-1 의 결과 반환
 //flase 이면 exp-2 의 결과 반환
 
-console.log( 1==1 ? "같음" : "다름")
+console.log( 1==1 ? "같음" : "다름");
+
+
+//Array + String
+//리스트의 요소가 , 까지 각각 String 으로 변환되어 더해진다.
+//c,d,ea,b 
+console.log(["c","d","e"] + "a,b,") 
+ 
 
 
 
