@@ -1,9 +1,13 @@
-const { error } = require('console');
+const dotenv = require('dotenv'); 
+dotenv.config();  
+const { error } = require('console'); 
 const express = require('express'); 
 const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser'); 
 const session = require('express-session'); 
+const multer = require('multer');
+ 
 
 const app = express();
  
@@ -15,7 +19,7 @@ app.use(morgan('dev'))
 app.use(cookieParser('ywoosang'))
 app.use(express.json());
 app.use(express.urlencoded({ extended : true}));
-app.use('/',express.static(path.join(__dirname,'public')));
+// app.use('/',express.static(path.join(__dirname,'public')));
 app.use(session({
     resave : false,
     saveUninitialized: false,
@@ -36,6 +40,14 @@ app.get('/',(req,res,next)=> {
     console.log(req.data);
     res.send('data received')    
 }); 
+
+app.use('/',(req,res,next)=>{
+    if(req.session.id) {
+        express.static(__dirname,'public')(req,res,next)
+    } else {
+        next();
+    }
+});
 
 app.get('/about',(req,res)=>{
     res.send('this is about page')
