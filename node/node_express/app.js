@@ -7,13 +7,16 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser'); 
 const session = require('express-session'); 
 const multer = require('multer');
- 
 
-const app = express();
+const app = express(); 
+const indexRouter = require('./routes');
+const userRouter = require('./routes/user')
  
 app.set('port',process.env.PORT || 2000); 
 app.set('cookiename','ywoosang'); 
 
+app.use('/',indexRouter);
+app.use('/user',userRouter)
 // 여기 미들웨어 들은 내부적으로 next() 실행 
 app.use(morgan('dev'))
 app.use(cookieParser('ywoosang'))
