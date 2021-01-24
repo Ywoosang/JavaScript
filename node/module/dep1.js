@@ -2,11 +2,10 @@
 // 순환 참조가 발생하면 빈 객체로 바꿔버린다. 
 require('./dep2')
 
-const age = 22; 
+const dep1 = 'dep1' 
 
 module.exports = {
-    name :'Ywoosang',
-    age 
+    dep1 : dep1
 }; 
 
-console.log(require('./dep2'))
+console.log('dep2 :',require('./dep2'))
