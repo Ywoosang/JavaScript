@@ -6,7 +6,7 @@ const server = http.createServer(async (req,res) => { // async 함수로 바꿔�
     try{
         res.writeHead(200,{'Content-Type': 'text/html; charset=utf-8'}); // html 로 인식 가능하도록 text/hltm, utf-8 인코딩 한글 안깨지도록
         const data = await fs.readFile('./server2.html'); // html 파일을 읽어서 전송  
-        console.log(data);
+        console.log(data);// Bufer 형식 -> html 을 stream 방식으로 보내기 때문에 
         res.end(data); 
     } catch(err){
         console.error(err);
