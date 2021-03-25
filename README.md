@@ -30,12 +30,9 @@ https://jusths.tistory.com/158
   - 카카오 로그인  
   - 네이버 로그인
   - 깃허브 로그인
+ 
+관련 지식 및 자료
 
-
-# API(Application Programming Interface)
-다른 애플리케이션에서 현재 프로그램의 기능을 사용할 수 있게 한다  
-다른 웹 서비스의 기능을 사용하거나 자원을 가져올 수 있게 한다 (웹 API)  
-다른 사람에게 정보를 제공하고 싶은 부분만 API 를 열고, 제공하고 싶지 않은 부분은 API 를 만들지 않으면 된다  
-API 에 제한을 걸어 일정 횟수 내에서만 가져가게 할 수도 있다  
-
+[MIME type 종류] https://developer.mozilla.org/ko/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types 
+[express-validator 사용] https://2ssue.github.io/programming/express-validator/ 
 
